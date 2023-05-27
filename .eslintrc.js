@@ -4,7 +4,7 @@ module.exports = {
     commonjs: true,
     es2021: true
   },
-  extends: ['eslint:recommended', 'react-app', 'react-app/jest'],
+  extends: ['eslint:recommended', './frontend/node_modules/eslint-config-react-app'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',

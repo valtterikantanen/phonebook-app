@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "build": "rm -rf build && cd frontend && npm install && npm run build && cp -r build ../ && rm -rf build",
-    "lint": "eslint './**/*.{js,jsx}'"
+    "lint": "eslint './**/*.{js,jsx}'",
+    "install-packages": "npm install && cd frontend && npm install"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +22,6 @@
   },
   "devDependencies": {
     "eslint": "^8.34.0",
-    "eslint-config-react-app": "^7.0.1",
     "nodemon": "^2.0.20"
   }
 }
