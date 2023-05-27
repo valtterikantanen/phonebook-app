@@ -21,6 +21,10 @@ const postLogger = morgan(':method :url :status :res[content-length] – :respon
 app.use(logger);
 app.use(postLogger);
 
+app.get('/health', (req, res) => {
+  res.send('ok');
+});
+
 app.get('/info', (req, res) => {
   Person.find({}).then(persons =>
     res.send(`
