@@ -4,10 +4,11 @@ module.exports = {
     commonjs: true,
     es2021: true
   },
-  extends: 'eslint:recommended',
+  extends: ['eslint:recommended', 'react-app', 'react-app/jest'],
   overrides: [],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
   rules: {
     indent: ['error', 2],
@@ -18,5 +19,10 @@ module.exports = {
     'no-trailing-spaces': 'error',
     'object-curly-spacing': ['error', 'always'],
     'arrow-spacing': ['error', { before: true, after: true }]
+  },
+  settings: {
+    react: {
+      version: '18.2.0'
+    }
   }
 };
