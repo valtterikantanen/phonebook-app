@@ -22,6 +22,32 @@ jobs:
         run: npm run lint
       - name: Build
         run: npm run build
+      - name: Deploy to Heroku
+        if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') == false }}
+        uses: akhileshns/heroku-deploy@9fd0f9faae4aa93a38d6f5e25b9128589f1371b0
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: shielded-sierra-54832
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          healthcheck: https://shielded-sierra-54832.herokuapp.com/health
+          checkstring: ok
+          rollbackonhealthcheckfailed: true
+      - name: Build successful notification
+        if: ${{ success() && github.event_name == 'push' }}
+        uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
+        with:
+          severity: info
+          text: A new version of phone book app deployed
+          description: The changes made by ${{ github.event.commits[0].author.username }} are now live at https://shielded-sierra-54832.herokuapp.com/
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Build failure notification
+        if: ${{ failure() && github.event_name == 'push' }}
+        uses: rjstone/discord-webhook-notify@89b0bf43c2c8514f70d0dcba4a706b904e8a3112
+        with:
+          severity: error
+          text: Build failed
+          description: Commit ${{ github.event.commits[0].url }} by ${{ github.event.commits[0].author.username }} broke something
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       
   tag_release:
     needs: simple_deployment_pipeline
@@ -31,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
+          fetch-depth: 0
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') == false }}
         uses: anothrNick/github-tag-action@72703d02f7df0cdb8f27aeb9feafeccd67b49881
