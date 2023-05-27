@@ -34,6 +34,10 @@ app.get('/info', (req, res) => {
   );
 });
 
+app.delete('/delete-test-person', (req, res, next) => {
+  Person.findOneAndRemove({ name: 'Matti Meikäläinen' }).then(data => res.json(data));
+});
+
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => res.json(persons));
 });

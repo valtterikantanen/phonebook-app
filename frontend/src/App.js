@@ -1,53 +1,12 @@
 import { useState, useEffect } from 'react';
+
+import Notification from './components/Notification';
 import contactsService from './services/contacts';
+import Filter from './components/Filter';
+import PersonForm from './components/PersonForm';
+import Persons from './components/Persons';
 
-const Filter = ({ value, handleChange }) => (
-  <div>
-    Filter shown with <input value={value} onChange={handleChange} />
-  </div>
-);
-
-const Notification = ({ notification }) => {
-  if (notification === null) return null;
-  const { message, type } = notification;
-  return <div className={`notification ${type}`}>{message}</div>;
-};
-
-const PersonForm = props => {
-  const { handleSubmit, name, handleNameChange, number, handleNumberChange } = props;
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        Name: <input value={name} onChange={handleNameChange} />
-      </div>
-      <div>
-        Number: <input value={number} onChange={handleNumberChange} />
-      </div>
-      <div>
-        <button type="submit">Add</button>
-      </div>
-    </form>
-  );
-};
-
-const Persons = ({ persons, filter, deleteNumber }) => (
-  <div>
-    {persons
-      .filter(person => person.name.toLowerCase().includes(filter))
-      .map(person => (
-        <Person key={person.name} person={person} deleteNumber={deleteNumber} />
-      ))}
-  </div>
-);
-
-const Person = ({ person, deleteNumber }) => (
-  <p>
-    {person.name} {person.number} <button onClick={() => deleteNumber(person)}>Delete</button>
-  </p>
-);
-
-const App = () => {
+export default function App() {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
@@ -101,7 +60,7 @@ const App = () => {
   const updateNumber = (id, newPerson) => {
     if (
       !window.confirm(
-        `${newPerson.name} is already added to phonebook, replace the old number with a new one?`
+        `${newPerson.name} is already added to phone book, replace the old number with a new one?`
       )
     )
       return;
@@ -130,7 +89,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Phonebook</h1>
+      <h1>Phone book</h1>
       <Notification notification={notification} />
       <Filter value={filter} handleChange={handleFilterStringChange} />
       <h2>Add a new number</h2>
@@ -145,6 +104,4 @@ const App = () => {
       <Persons persons={persons} filter={filter} deleteNumber={deleteNumber} />
     </div>
   );
-};
-
-export default App;
+}

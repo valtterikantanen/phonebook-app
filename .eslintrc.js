@@ -2,8 +2,10 @@ module.exports = {
   env: {
     node: true,
     commonjs: true,
-    es2021: true
+    es2021: true,
+    'cypress/globals': true
   },
+  plugins: ['cypress'],
   extends: ['eslint:recommended', './frontend/node_modules/eslint-config-react-app'],
   overrides: [],
   parserOptions: {

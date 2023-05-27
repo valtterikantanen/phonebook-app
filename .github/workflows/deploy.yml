@@ -22,6 +22,14 @@ jobs:
         run: npm run lint
       - name: Build
         run: npm run build
+      - name: Test
+        run: npm run test
+      - name: e2e tests
+        uses: cypress-io/github-action@191187832803e908aa13b6e33c2c42abd8b12c5a
+        with:
+          command: npm run test:e2e
+          start: npm run start-prod
+          wait-on: http://localhost:3000
       - name: Deploy to Heroku
         if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') == false }}
         uses: akhileshns/heroku-deploy@9fd0f9faae4aa93a38d6f5e25b9128589f1371b0
