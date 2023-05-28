@@ -1,7 +1,7 @@
 describe('Phone book app', function () {
   beforeEach(function () {
     cy.request('DELETE', 'http://localhost:3001/delete-test-person');
-    cy.visit('http://localhost:3000');
+    cy.visit('http://localhost:3001');
   });
 
   it('front page can be opened', function () {

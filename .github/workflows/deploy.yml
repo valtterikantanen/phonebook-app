@@ -30,8 +30,8 @@ jobs:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         with:
           command: npm run test:e2e
-          start: npm run start-prod
-          wait-on: http://localhost:3000
+          start: npm start
+          wait-on: http://localhost:3001
       - name: Deploy to Heroku
         if: ${{ github.event_name == 'push' && contains(join(toJson(github.event.commits.*.message)), '#skip') == false }}
         uses: akhileshns/heroku-deploy@9fd0f9faae4aa93a38d6f5e25b9128589f1371b0
